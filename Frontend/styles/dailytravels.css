@@ -1,0 +1,90 @@
+body {
+    background-color: #faf9f6;
+}
+
+.gray-text {
+    color: gray;
+    margin-left: 15px;
+}
+
+.container {
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-bottom: 30px;
+}
+
+.list-group-item {
+    margin-right: 20px;
+    margin-left: 20px;
+    margin: 1%;
+    border-width: 3px !important;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+ul{
+    padding-bottom: 15px;
+}
+
+.text-start {
+    text-align: left;
+}
+
+.text-end {
+    text-align: right;
+}
+
+.fs-3 {
+    font-size: 1.75rem;
+    /* Adjust as needed */
+}
+
+.navbar {
+    background-color: #faf9f6;
+}
+
+.navbar-brand {
+    color: #212529;
+    font-family: 'cursive-font', cursive;
+    font-weight: bold;
+    color: #FF6700 !important;
+
+}
+
+.btn-outline-success {
+    color: #198754;
+    border-color: #198754;
+}
+
+.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #faf9f6;
+}
+
+#editButton {
+    display: flex;
+    float: right !important;
+    background-color: #efefef;
+    color: #FF6700;
+    border-radius: 4px;
+    text-align: center;
+    transition-duration: 0.4s;
+    position: static !important;
+}
+
+#editButton:hover {
+    background-color: #FF6700;
+    /* Green */
+    color: hsl(0, 0%, 100%);
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+.fw-bold {
+    color: #FF6700;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+

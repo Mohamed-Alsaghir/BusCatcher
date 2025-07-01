@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/settings.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Calendar Lists</title>
+  </head>
+
+  <body style="background-color: #faf9f6">
+    <div
+      class="card"
+      style="
+        width: 90%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        margin: auto;
+      "
+    >
+<div class="card-header position-relative d-flex justify-content-center align-items-center">
+    <h3 class="text-center">Calendar Lists</h3>
+    <span class="position-absolute end-0" data-bs-toggle="tooltip" title="To start getting personalized recommendations, you need to enter your home address, followed by choosing a calendar from your calendars list and finally please enter the address for your chosen calendar." style="border: 1px solid #000; border-radius: 50%; padding: 10px; margin-right: 30px;">
+        <i class="fas fa-info-circle"></i>
+    </span>
+</div>
+      <!--<p style="width: 92%; margin: auto; margin-top: 20px; font-size: large;">To start getting personalized recommendations, you need to enter your home address, followed by choosing a calendar from your calendars list and finally please enter the address for your chosen calendar.</p>-->
+      <div class="card-body" style="width: 96%; margin: auto">
+        <div class="form-floating mb-3">
+          <input
+              type="text"
+              class="form-control"
+              id="floatingInput1"
+              placeholder="name@example.com"
+              oninput="showSuggestions1(this.value)"
+              data-bs-toggle="dropdown"
+          />
+          <label for="floatingInput1">Home address</label>
+          <div id="suggestionPane1" class="dropdown-menu"></div>
+        </div>
+
+        <div class="col-4" style="width: 100%">
+          <div id="list-example" class="list-group">
+            <div id="calendarList">
+              <form id="calendarForm" action="edit_calendar.html" method="GET">
+                <input type="hidden" name="calendarId" value="DONT_FORGET_ME" />
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingInput2"
+            placeholder="name@example.com"
+            oninput="showSuggestions2(this.value)"
+            data-bs-toggle="dropdown"
+          />
+          <label for="floatingInput2">Address for chosen calendar</label>
+          <div id="suggestionPane2" class="dropdown-menu"></div>
+        </div>
+        <button
+          class="btn btn-outline-primary"
+          id="saveCalendarButton"
+          style="width: 100%; margin-bottom: 1px"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+    <ul class="nav justify-content-center fixed-bottom bg-body-tertiary">
+    <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="./dailytravels.html">
+            <div class="d-flex flex-column align-items-center">
+                <i class="fas fa-home fa-2x" style="color:#ffae78;"></i>
+                <span>Home</span>
+            </div>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="./settings.html">
+            <div class="d-flex flex-column align-items-center">
+                <i class="fas fa-calendar fa-2x" style="color:#FF6700;"></i>
+                <span>Calendars</span>
+            </div>
+        </a>
+    </li>
+</ul>
+    <script src="./scripts/settings.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+        document.getElementById("saveCalendarButton").addEventListener("click", function(event) {
+          event.preventDefault(); // Prevent the default button behavior
+          // Submit the form
+          document.getElementById("calendarForm").submit();
+        });
+
+      function generateListItem(id, title, colorHex) {
+        // Create a new list item
+        var listItem = document.createElement("a");
+        listItem.className = "#list-item list-group-item list-group-item-action border-colored";
+        listItem.style = "border-left-color:" + colorHex + " !important";
+        listItem.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-date" viewBox="0 0 16 16">
+            <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23"/>
+            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+          </svg>
+          ${title}<span class="checkmark">&#10003;</span>
+        `;
+
+        
+        listItem.addEventListener("click", function(event) {
+          event.preventDefault(); // Prevent the default link behavior
+          document.querySelector("#calendarForm input[name='calendarId']").value = id;
+          localStorage.setItem("calendarId", id);
+          localStorage.setItem("calendarName", title);
+        });
+
+        // Add the list item to the calendar list
+        document.getElementById("calendarList").appendChild(listItem);
+      }
+
+      window.onload = function () {
+        saveSessionToLocalStorage();
+        getCalendars();
+      };
+      function getCalendars() {
+        var access_token = localStorage.getItem("access_token");
+        var refresh_token = localStorage.getItem("refresh_token");
+        var expires_in = localStorage.getItem("expires_in");
+        fetch("http://localhost:8080/api/google/calendars", {
+          headers: {
+            //Authorization: "Bearer " + session_token,
+            "AccessToken": access_token,
+            "RefreshToken": refresh_token,
+            "ExpiresIn": expires_in,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (Array.isArray(data)) {
+              data.forEach((calendar) => {
+                generateListItem(
+                  calendar.id,
+                  calendar.title,
+                  calendar.backgroundColor
+                );
+              });
+            } else {
+              console.error("Error: data is not an array", data);
+            }
+          });
+      }
+
+      function getParameterByName(name, url = window.location.href) {
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return "";
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+      }
+
+      function saveSessionToLocalStorage() {
+        var access_token = getParameterByName("access_token");
+        var refresh_token = getParameterByName("refresh_token");
+        var expires_in = getParameterByName("expires_in");
+        if (access_token) {
+          localStorage.setItem("access_token", access_token);
+          localStorage.setItem("refresh_token", refresh_token);
+          localStorage.setItem("expires_in", expires_in);
+        }
+      }
+
+
+
+      var timeout = null;
+
+      function showSuggestions1(input) {
+        // Clear the timeout if it's already set.
+        clearTimeout(timeout);
+
+        // Set a new timeout
+        timeout = setTimeout(function () {
+          // Fetch data from the server
+          fetch('http://localhost:8080/api/google/places/' + encodeURIComponent(input))
+          .then(response => response.json())
+          .then(data => {
+              // Create a new HTML string for the suggestions
+              var html = '';
+              for (var i = 0; i < data.candidates.length; i++) {
+                var lat = data.candidates[i].geometry.location.lat;
+                var lng = data.candidates[i].geometry.location.lng;
+                var formatted_address = data.candidates[i].formatted_address;
+                  // Corrected the way onclick event is being attached
+                  html += '<a class="dropdown-item" onclick="selectSuggestion1(\'' + formatted_address + '\', ' + lat + ', ' + lng + ')">' + formatted_address + '</a>';
+              }
+
+              // Update the suggestion pane
+              var suggestionPane = document.getElementById('suggestionPane1');
+              suggestionPane.innerHTML = html;
+          });
+        }, 500); // Delay in milliseconds
+      }
+
+    
+    function selectSuggestion1(address, lat, lng) {
+      // Update the TextBox with the selected suggestion
+      var textBox = document.getElementById('floatingInput1');
+      textBox.value = address;
+
+      // Save the lat and lng values in the localStorage
+      var homeAddress = address + '||' + lat + '||' + lng;
+      localStorage.setItem('HomeAddress', homeAddress);
+    }
+
+    function showSuggestions2(input) {
+        // Clear the timeout if it's already set.
+        clearTimeout(timeout);
+
+        // Set a new timeout
+        timeout = setTimeout(function () {
+          // Fetch data from the server
+          fetch('http://localhost:8080/api/google/places/' + encodeURIComponent(input))
+          .then(response => response.json())
+          .then(data => {
+              // Create a new HTML string for the suggestions
+              var html = '';
+              for (var i = 0; i < data.candidates.length; i++) {
+                  var lat = data.candidates[i].geometry.location.lat;
+                  var lng = data.candidates[i].geometry.location.lng;
+                  var formatted_address = data.candidates[i].formatted_address;
+
+                  // Corrected the way onclick event is being attached
+                  html += '<a class="dropdown-item" onclick="selectSuggestion2(\'' + formatted_address + '\', ' + lat + ', ' + lng + ')">' + formatted_address + '</a>';
+              }
+
+              // Update the suggestion pane
+              var suggestionPane = document.getElementById('suggestionPane2');
+              suggestionPane.innerHTML = html;
+          });
+        }, 500); // Delay in milliseconds
+      }
+
+    function selectSuggestion2(address, lat, lng) {
+      // Update the TextBox with the selected suggestion
+      var textBox = document.getElementById('floatingInput2');
+      textBox.value = address;
+
+      // Save the lat and lng values in the localStorage
+      var calendarAddress = address + '||' + lat + '||' + lng;
+      localStorage.setItem('CalendarAddress', calendarAddress);
+    }
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+    </script>
+  </body>
+</html>

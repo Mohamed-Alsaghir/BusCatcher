@@ -1,0 +1,47 @@
+body {
+      background-color: #faf9f6;
+    }
+    .header-buttons {
+      font-size: 1rem;
+      color: #000; 
+    }
+    .btn-back {
+      background-color: transparent;
+      color: blue;
+      border :1 px solid blue;
+      padding: 0.375rem 0.75rem;
+
+    }
+    .bi-arrow-left {
+    color: blue;
+}
+    .btn-save {
+      background-color: purple;
+      color: white;
+    }
+    .card-custom {
+      background-color: purple;
+      border: none;
+      border-radius: 20px;
+      color: white;
+      margin-bottom: 15px;
+    }
+    .time-slot {
+      font-size: 1.5rem;
+      font-weight: bold;
+    
+    }
+    .header-center {
+      text-align: center;
+    }
+    
+    .header-right {
+        text-align:right;
+    }
+    .header-container {
+        display: flex;
+        align-items:center;
+        justify-content:space-between;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }

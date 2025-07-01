@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./styles/dailytravels.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <title>Today's Travel Plan</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">BusCatcher</a>
+      <form class="justify-content-between">
+        <button class="btn btn-outline-success me-2" id="editButton" type="button">
+          Change Today's Plans
+        </button>
+      </form>
+    </div>
+  </nav>
+  <h1 class="fw-bold">Today's Travel Plan</h1>
+  <div class="container">
+    <ul class="list-group list-group-flush">
+      <span class="gray-text">Go to <span id="calendarName">(vald kalender)</span></span>
+      <div id="goToPlans"></div>
+      
+    </ul>
+    <ul class="list-group list-group-flush">
+      <span class="gray-text">Go Home</span>
+      <div id="goBackPlans"></div>
+    </ul>
+  </div>
+  <ul class="nav justify-content-center fixed-bottom bg-body-tertiary">
+    <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="./dailytravels.html">
+            <div class="d-flex flex-column align-items-center">
+                <i class="fas fa-home fa-2x" style="color:#FF6700;"></i>
+                <span>Home</span>
+            </div>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="./settings.html">
+            <div class="d-flex flex-column align-items-center">
+                <i class="fas fa-calendar fa-2x" style="color:#ffae78;"></i>
+                <span>Calendars</span>
+            </div>
+        </a>
+    </li>
+</ul>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+    <script>
+      document.getElementById('editButton').addEventListener('click', function () {
+              // Redirect to the edit_calendar.html page after button click
+              window.location.href = 'edit_calendar.html';
+      });
+    </script>
+    <script>
+            window.onload = function () {
+                    getTodaysPlans();
+                    setCalendarName();
+            };
+
+            function setCalendarName() {
+                    // Get the calendarName from local storage
+                    var calendarName = localStorage.getItem("calendarName");
+                    // Set the calendarName as the innerHTML of the calendarName element
+                    document.getElementById("calendarName").innerHTML = calendarName;
+            }
+
+            function generatePlanItemGoTo(startTime, endTime, departureBusStation, arrivalAddress, busName) {
+                    startTime = startTime.slice(0, 5);
+                    endTime = endTime.slice(0, 5);
+                    // Create a new list item
+                    var listItem = document.createElement("li");
+                    listItem.className = "list-group-item";
+                    listItem.innerHTML += `
+                                            <div class="d-flex justify-content-between">
+                                              <span class="text-start">Departure</span>
+                                              <span class="text-end">Arrival</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                              <span class="text-start fw-bold fs-3" id="departureTime">${startTime}</span>
+                                              <span class="text-end fw-bold fs-3" id="arrivalTime">${endTime}</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                              <span class="text-start" id="departureBusStation">${departureBusStation}</span>
+                                              <span class="text-end" id="arrivalAddress">${arrivalAddress}</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                              <span class="text-start" id="busName">${busName}</span>
+                                            </div>`;
+                    // Add the list item to the calendar list
+                    document.getElementById("goToPlans").appendChild(listItem);
+            }
+
+            function generatePlanItemGoBack(startTime, endTime, departureBusStation, arrivalAddress, busName) {
+                    startTime = startTime.slice(0, 5);
+                    endTime = endTime.slice(0, 5);
+                    // Create a new list item
+                    var listItem = document.createElement("li");
+                    listItem.className = "list-group-item";
+                    listItem.innerHTML += `
+                                            <div class="d-flex justify-content-between">
+                                              <span class="text-start">Departure</span>
+                                              <span class="text-end">Arrival</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                              <span class="text-start fw-bold fs-3" id="departureTime">${startTime}</span>
+                                              <span class="text-end fw-bold fs-3" id="arrivalTime">${endTime}</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                              <span class="text-start" id="departureBusStation">${departureBusStation}</span>
+                                              <span class="text-end" id="arrivalAddress">${arrivalAddress}</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                              <span class="text-start" id="busName">${busName}</span>
+                                            </div>`;
+                    // Add the list item to the calendar list
+                    document.getElementById("goBackPlans").appendChild(listItem);
+            }
+
+            function getTodaysPlans() {
+                    // Get the calendarId from local storage
+                    var HomeAddress = localStorage.getItem("HomeAddress");
+                    var originLat = HomeAddress.split("||")[1];
+                    var originLon = HomeAddress.split("||")[2];
+                    var CalendarAddress = localStorage.getItem("CalendarAddress");
+                    var destinationLat = CalendarAddress.split("||")[1];
+                    var destinationLon = CalendarAddress.split("||")[2];
+                    var todaysEventStartEndTimes = JSON.parse(localStorage.getItem('todaysEventStartEndTimes'));
+                    // Filter the todaysEventStartEndTimes array to keep only the arrays that have true as their fourth element
+                    var filteredEvents = todaysEventStartEndTimes.filter(event => event[3]);
+                    
+                    // Initialize startTime and endTime
+                    var firstEventStartTime, lastEventEndTime;
+
+                    // Check if there are any events left after filtering
+                    if (filteredEvents.length > 0) {
+                        // Get the startTime of the first event and the endTime of the last event
+                        firstEventStartTime = filteredEvents[0][1];
+                        firstEventStartTime = firstEventStartTime.replace(/:/g, '');
+                        lastEventEndTime = filteredEvents[filteredEvents.length - 1][2];
+                        lastEventEndTime = lastEventEndTime.replace(/:/g, '');
+                        
+                        // If there's only one event, get its startTime and endTime
+                        if (filteredEvents.length === 1) {
+                            firstEventStartTime = filteredEvents[0][1];
+                            firstEventStartTime = firstEventStartTime.replace(/:/g, '');
+                            lastEventEndTime = filteredEvents[0][2];
+                            lastEventEndTime = lastEventEndTime.replace(/:/g, '');
+                            
+                        }
+                    } else {
+                        // If there are no events, return a message
+                        console.log("Please select Events to show Today's Plan");
+                        alert("Please select Events to show Today's Plan");
+                    }
+
+                    
+                    var goToDepartureBusStation;
+                    var goToArrivalAddress = CalendarAddress.split("||")[0];
+                    var busName;
+                    var goBackDepartureBusStation;
+                    var goBackArrivalAddress = HomeAddress.split("||")[0];
+
+                    // Get the todays arrival times from our API-backend
+                    fetch(`http://localhost:8080/api/skanetrafiken/planTrip/${originLat},${originLon}/${destinationLat},${destinationLon}/arrive/${firstEventStartTime}`, {
+                            headers: {
+                            // Add any additional headers if needed
+                            'Content-Type': 'application/json',
+                            },
+                            // Set the request method to GET
+                            method: 'GET',
+                    })
+                            .then(response => response.json())
+                            .then(data => {
+                                    // Get today's date
+                                    for (var i = 0; i < data.length; i++) {
+                                            var event = data[i];
+                                            var startTime;
+                                            var endTime = event.DestinationTime;
+                                            for (var j = 0; j < event.LegList.length; j++) {
+                                               var leg = event.LegList[j];
+                                               if (leg.type == "JNY") {
+                                                    startTime = leg.OriginTime;
+                                                    goToDepartureBusStation = leg.OriginName;
+                                                    busName = leg.name;
+                                               }
+                                            }
+                                            
+                                            generatePlanItemGoTo(startTime, endTime, goToDepartureBusStation, goToArrivalAddress, busName);
+                                    }
+                            })
+                            .catch((error) => {
+                                    // Handle errors during the fetch request
+                                    console.error('Fetch error:', error);
+                            });
+
+
+                            fetch(`http://localhost:8080/api/skanetrafiken/planTrip/${destinationLat},${destinationLon}/${originLat},${originLon}/depart/${lastEventEndTime}`, {
+                            headers: {
+                            // Add any additional headers if needed
+                            'Content-Type': 'application/json',
+                            },
+                            // Set the request method to GET
+                            method: 'GET',
+                    })
+                            .then(response => response.json())
+                            .then(data => {
+                                    // Get today's date
+                                    for (var i = 0; i < data.length; i++) {
+                                            var event = data[i];
+                                            var startTime;
+                                            var endTime = event.DestinationTime;
+                                            for (var j = 0; j < event.LegList.length; j++) {
+                                               var leg = event.LegList[j];
+                                               if (leg.type == "JNY") {
+                                                    startTime = leg.OriginTime;
+                                                    goBackDepartureBusStation = leg.OriginName;
+                                                    busName = leg.name;
+                                               }
+                                            }
+                                            
+                                            generatePlanItemGoBack(startTime, endTime, goBackDepartureBusStation, goBackArrivalAddress, busName);
+                                    }
+                            })
+                            .catch((error) => {
+                                    // Handle errors during the fetch request
+                                    console.error('Fetch error:', error);
+                            });
+            }
+    </script>
+</body>
+
+
+</html>
